@@ -1,16 +1,34 @@
-class PacemakerUser:
-    
-    totalUsers = 0
-    
-    def __init__(self, username, password):
-        self.u = username
-        self.p = password
+import os
 
-    
-    #Getters
-    def gettotalUsers(self):
-        return totalUsers
-    def getUsername(self):
-        return self.u
-    def getPassword(self):
-        return self.p
+#%% Verify user logins
+def verify(username, password):
+    login = False
+    users = os.listdir("Users/")
+    for s in range(len(users)): 
+        users[s] = users[s].strip(".txt")
+    if ((username in users) == False):
+        return login
+    name = "Users/" + username +".txt"
+    file = open(name, "r")
+    if (password == file.read()):
+        login = True
+    return login 
+
+#%% Register a new user
+def register(username, password):
+    newUser = -1
+    path = "Users/"
+    numUsers = len(os.listdir(path))
+    if numUsers < 10:
+        users = os.listdir(path)
+        for s in range(len(users)): 
+            users[s] = users[s].strip(".txt")
+        if (username in users):
+            newUser = 0
+        else:
+            name = path + username +".txt"
+            file = open(name, "w")
+            file.write(password)
+            file.close()
+            newUser = 1
+    return newUser
